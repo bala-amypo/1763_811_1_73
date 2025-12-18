@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "workflow_templates", uniqueConstraints = {
         @UniqueConstraint(columnNames = "templateName")
 })
-public class WorkflowTemplate {
+public class WorkflowTemplateEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

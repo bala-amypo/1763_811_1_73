@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "audit_log_records")
-public class AuditLogRecord {
+public class AuditLogRecordEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

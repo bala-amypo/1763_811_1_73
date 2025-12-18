@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "approval_requests")
-public class ApprovalRequest {
+public class ApprovalRequestEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
