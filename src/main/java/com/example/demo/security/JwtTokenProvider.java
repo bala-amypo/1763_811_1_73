@@ -1,6 +1,7 @@
 package com.example.demo.security;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
-import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
 import java.util.Date;
 
