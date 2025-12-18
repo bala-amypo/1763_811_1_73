@@ -1,22 +1,28 @@
-package com.example.demo.entity;
+package com.example.demo.controller;
 
-import jakarta.persistence.*;
+import com.example.demo.entity.WorkflowStepConfig;
+import com.example.demo.service.WorkflowStepConfigService;
+import org.springframework.web.bind.annotation.*;
 
-@Entity
-@Table(name = "workflow_step_configs")
-public class WorkflowStepConfig {
+import java.util.List;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+@RestController
+@RequestMapping("/api/steps")
+public class WorkflowStepConfigController {
 
-    // CRITICAL: store ID only
-    private Long templateId;
+    private final WorkflowStepConfigService service;
 
-    private Integer levelNumber;
-    private String approverRole;
-    private Boolean isFinalStep;
-    private String instructions;
+    public WorkflowStepConfigController(WorkflowStepConfigService service) {
+        this.service = service;
+    }
 
-    // getters & setters
+    @PostMapping
+    public WorkflowStepConfig create(@RequestBody WorkflowStepConfig step) {
+        return service.createStep(step);
+    }
+
+    @GetMapping("/template/{templateId}")
+    public List<WorkflowStepConfig> getSteps(@PathVariable Long templateId) {
+        return service.getStepsForTemplate(templateId);
+    }
 }
