@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "workflow_step_configs")
-public class WorkflowStepConfigEntity {
+public class WorkflowStepConfig {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
