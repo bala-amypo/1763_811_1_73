@@ -103,3 +103,5 @@
 
 
 </project>
+
+CREATE DATABASE workflow_db;
