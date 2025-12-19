@@ -1,25 +1,17 @@
 package com.example.demo.util;
 
-import com.example.demo.entity.ApprovalAction;
-import jakarta.persistence.*;
-import jakarta.persistence.criteria.*;
-import org.springframework.stereotype.Component;
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-@Component
-public class HibernateQueryUtil {
+public class JsonUtil {
 
-    @PersistenceContext
-    private EntityManager em;
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    public List<ApprovalAction> findActionsByApproverUsingCriteria(Long approverId) {
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<ApprovalAction> cq = cb.createQuery(ApprovalAction.class);
-        Root<ApprovalAction> root = cq.from(ApprovalAction.class);
-
-        cq.select(root)
-          .where(cb.equal(root.get("approverId"), approverId));
-
-        return em.createQuery(cq).getResultList();
+    // Convert object to JSON String
+    public static String toJson(Object object) {
+        try {
+            return objectMapper.writeValueAsString(object);
+        } catch (Exception e) {
+            return "{}";
+        }
     }
 }

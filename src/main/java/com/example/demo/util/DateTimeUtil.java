@@ -3,30 +3,21 @@ package com.example.demo.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public final class DateTimeUtil {
+public class DateTimeUtil {
 
-    private static final DateTimeFormatter DEFAULT_FORMAT =
-            DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
+    // Private constructor to prevent object creation
     private DateTimeUtil() {
-        // utility class
     }
 
-    public static LocalDateTime now() {
+    // Get current date time
+    public static LocalDateTime getCurrentDateTime() {
         return LocalDateTime.now();
     }
 
-    public static String format(LocalDateTime dateTime) {
-        if (dateTime == null) {
-            return null;
-        }
-        return dateTime.format(DEFAULT_FORMAT);
-    }
-
-    public static LocalDateTime parse(String value) {
-        if (value == null || value.isEmpty()) {
-            return null;
-        }
-        return LocalDateTime.parse(value, DEFAULT_FORMAT);
+    // Get formatted date time as String
+    public static String getFormattedDateTime() {
+        DateTimeFormatter formatter =
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        return LocalDateTime.now().format(formatter);
     }
 }
