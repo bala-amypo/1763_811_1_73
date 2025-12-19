@@ -1,26 +1,52 @@
 package com.example.demo.security;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
+import com.example.demo.model.User;
+import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
+
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
 
-    public String generateToken(String username) {
+    public String generateToken(User user) {
+
+        String roles = user.getRoles()
+                .stream()
+                .map(role -> role.getName())
+                .collect(Collectors.joining(","));
+
         return Jwts.builder()
-                .setSubject(username)
-                .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET)
+                .setSubject(user.getUsername())
+                .claim("userId", user.getId())
+                .claim("roles", roles)
+                .setIssuedAt(new Date())
+                .setExpiration(
+                        new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME)
+                )
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SECRET_KEY)
                 .compact();
     }
 
-    public String getUsernameFromToken(String token) {
-        return Jwts.parser()
-                .setSigningKey(SecurityConstants.SECRET)
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                .setSigningKey(SecurityConstants.SECRET_KEY)
+                .parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public Long getUserIdFromToken(String token) {
+
+        Claims claims = Jwts.parser()
+                .setSigningKey(SecurityConstants.SECRET_KEY)
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+                .getBody();
+
+        return claims.get("userId", Long.class);
     }
 }
