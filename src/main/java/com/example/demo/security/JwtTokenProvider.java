@@ -1,8 +1,9 @@
 package com.example.demo.security;
 
-import com.example.demo.model.User;
 import io.jsonwebtoken.*;
 import org.springframework.stereotype.Component;
+
+import com.example.demo.model.User;
 
 import java.util.Date;
 import java.util.stream.Collectors;

@@ -1,7 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.model.ApprovalRequest;
 import java.util.List;
+
+import com.example.demo.model.ApprovalRequest;
 
 public interface ApprovalRequestService {
 
