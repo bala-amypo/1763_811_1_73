@@ -1,8 +1,9 @@
 package com.example.demo.service;
 
-import com.example.demo.model.WorkflowTemplate;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.demo.model.WorkflowTemplate;
 
 public interface WorkflowTemplateService {
 
