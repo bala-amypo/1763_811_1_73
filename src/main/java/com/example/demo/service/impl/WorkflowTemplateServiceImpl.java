@@ -1,57 +1,56 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.model.WorkflowTemplate;
 import com.example.demo.repository.WorkflowTemplateRepository;
 import com.example.demo.service.WorkflowTemplateService;
-import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.model.WorkflowTemplate;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
 
-    private final WorkflowTemplateRepository workflowTemplateRepository;
+    private WorkflowTemplateRepository repository;
 
-    public WorkflowTemplateServiceImpl(WorkflowTemplateRepository workflowTemplateRepository) {
-        this.workflowTemplateRepository = workflowTemplateRepository;
+    // Constructor Injection
+    public WorkflowTemplateServiceImpl(WorkflowTemplateRepository repository) {
+        this.repository = repository;
     }
 
-    @Override
-    public WorkflowTemplate createTemplate(WorkflowTemplate template) {
-        return workflowTemplateRepository.save(template);
+    // CREATE
+    public WorkflowTemplate saveTemplate(WorkflowTemplate template) {
+        return repository.save(template);
     }
 
-    @Override
-    public Optional<WorkflowTemplate> getTemplateById(Long id) {
-        return workflowTemplateRepository.findById(id);
-    }
-
-    @Override
-    public List<WorkflowTemplate> getAllTemplates() {
-        return workflowTemplateRepository.findAll();
-    }
-
-    @Override
+    // UPDATE
     public WorkflowTemplate updateTemplate(Long id, WorkflowTemplate template) {
-        WorkflowTemplate existing = workflowTemplateRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("WorkflowTemplate not found"));
 
-        existing.setTemplateName(template.getTemplateName());
-        existing.setDescription(template.getDescription());
-        existing.setTotalLevels(template.getTotalLevels());
+        WorkflowTemplate existingTemplate = repository.findById(id).orElse(null);
 
-        return workflowTemplateRepository.save(existing);
+        if (existingTemplate != null) {
+            existingTemplate.setTemplateName(template.getTemplateName());
+            existingTemplate.setDescription(template.getDescription());
+            existingTemplate.setTotalLevels(template.getTotalLevels());
+            existingTemplate.setActive(template.getActive());
+
+            return repository.save(existingTemplate);
+        }
+
+        return null;
     }
 
-    @Override
-    public WorkflowTemplate activateTemplate(Long id, boolean active) {
-        WorkflowTemplate template = workflowTemplateRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("WorkflowTemplate not found"));
+    // READ by ID
+    public WorkflowTemplate getTemplateById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 
-        template.setActive(active);
-        return workflowTemplateRepository.save(template);
+    // READ all
+    public List<WorkflowTemplate> getAllTemplates() {
+        return repository.findAll();
+    }
+
+    // DELETE
+    public void deleteTemplate(Long id) {
+        repository.deleteById(id);
     }
 }

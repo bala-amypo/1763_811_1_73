@@ -2,7 +2,6 @@ package com.example.demo.controller;
 
 import com.example.demo.model.WorkflowTemplate;
 import com.example.demo.service.WorkflowTemplateService;
-import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,33 +10,41 @@ import java.util.List;
 @RequestMapping("/api/templates")
 public class WorkflowTemplateController {
 
-    private final WorkflowTemplateService workflowTemplateService;
+    private WorkflowTemplateService service;
 
-    public WorkflowTemplateController(WorkflowTemplateService workflowTemplateService) {
-        this.workflowTemplateService = workflowTemplateService;
+    public WorkflowTemplateController(WorkflowTemplateService service) {
+        this.service = service;
     }
 
-    @PostMapping
+    // CREATE
+    @PostMapping("/create")
     public WorkflowTemplate createTemplate(@RequestBody WorkflowTemplate template) {
-        return workflowTemplateService.createTemplate(template);
+        return service.saveTemplate(template);
     }
 
-    @GetMapping("/{id}")
+    // READ by ID
+    @GetMapping("/get/{id}")
     public WorkflowTemplate getTemplate(@PathVariable Long id) {
-        return workflowTemplateService.getTemplateById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Template not found"));
+        return service.getTemplateById(id);
     }
 
-    @PutMapping("/{id}")
-    public WorkflowTemplate updateTemplate(
-            @PathVariable Long id,
-            @RequestBody WorkflowTemplate template) {
-
-        return workflowTemplateService.updateTemplate(id, template);
-    }
-
-    @GetMapping
+    // READ all
+    @GetMapping("/all")
     public List<WorkflowTemplate> getAllTemplates() {
-        return workflowTemplateService.getAllTemplates();
+        return service.getAllTemplates();
+    }
+
+    // UPDATE
+    @PutMapping("/update/{id}")
+    public WorkflowTemplate updateTemplate(@PathVariable Long id,
+                                           @RequestBody WorkflowTemplate template) {
+        return service.updateTemplate(id, template);
+    }
+
+    // DELETE
+    @DeleteMapping("/delete/{id}")
+    public String deleteTemplate(@PathVariable Long id) {
+        service.deleteTemplate(id);
+        return "Template deleted successfully";
     }
 }

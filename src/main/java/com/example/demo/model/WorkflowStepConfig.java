@@ -1,11 +1,6 @@
 package com.example.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "workflow_step_configs")
@@ -15,70 +10,27 @@ public class WorkflowStepConfig {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
     private Long templateId;
-
-    @Column(nullable = false)
     private Integer levelNumber;
-
-    @Column(nullable = false)
     private String approverRole;
-
-    @Column(nullable = false)
     private Boolean isFinalStep;
-
     private String instructions;
 
-    public WorkflowStepConfig() {
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // Getter and Setter methods
+    public Long getTemplateId() { return templateId; }
+    public void setTemplateId(Long templateId) { this.templateId = templateId; }
 
-    public Long getId() {
-        return id;
-    }
+    public Integer getLevelNumber() { return levelNumber; }
+    public void setLevelNumber(Integer levelNumber) { this.levelNumber = levelNumber; }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public String getApproverRole() { return approverRole; }
+    public void setApproverRole(String approverRole) { this.approverRole = approverRole; }
 
-    public Long getTemplateId() {
-        return templateId;
-    }
+    public Boolean getIsFinalStep() { return isFinalStep; }
+    public void setIsFinalStep(Boolean isFinalStep) { this.isFinalStep = isFinalStep; }
 
-    public void setTemplateId(Long templateId) {
-        this.templateId = templateId;
-    }
-
-    public Integer getLevelNumber() {
-        return levelNumber;
-    }
-
-    public void setLevelNumber(Integer levelNumber) {
-        this.levelNumber = levelNumber;
-    }
-
-    public String getApproverRole() {
-        return approverRole;
-    }
-
-    public void setApproverRole(String approverRole) {
-        this.approverRole = approverRole;
-    }
-
-    public Boolean getIsFinalStep() {
-        return isFinalStep;
-    }
-
-    public void setIsFinalStep(Boolean isFinalStep) {
-        this.isFinalStep = isFinalStep;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
+    public String getInstructions() { return instructions; }
+    public void setInstructions(String instructions) { this.instructions = instructions; }
 }
