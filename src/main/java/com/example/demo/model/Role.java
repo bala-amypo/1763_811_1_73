@@ -12,9 +12,24 @@ public class Role {
 
     private String name;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // DEFAULT constructor (required by JPA)
+    public Role() {
+    }
 
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
+    // Getter and Setter
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }
