@@ -1,40 +1,30 @@
 package com.example.demo.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.Column;
-import jakarta.persistence.UniqueConstraint;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
-@Table(
-    name = "workflow_templates",
-    uniqueConstraints = @UniqueConstraint(columnNames = "templateName")
-)
+@Table(name = "workflow_templates")
 public class WorkflowTemplate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
     private String templateName;
-
     private String description;
-
-    @Column(nullable = false)
     private Integer totalLevels;
+    private Boolean active;
 
-    @Column(nullable = false)
-    private Boolean active = false;
-
+    // Constructor
     public WorkflowTemplate() {
+        this.active = true;
     }
 
-    // Getter and Setter methods
-
+    // Getter and Setter for id
     public Long getId() {
         return id;
     }
@@ -43,6 +33,7 @@ public class WorkflowTemplate {
         this.id = id;
     }
 
+    // Getter and Setter for templateName
     public String getTemplateName() {
         return templateName;
     }
@@ -51,6 +42,7 @@ public class WorkflowTemplate {
         this.templateName = templateName;
     }
 
+    // Getter and Setter for description
     public String getDescription() {
         return description;
     }
@@ -59,6 +51,7 @@ public class WorkflowTemplate {
         this.description = description;
     }
 
+    // Getter and Setter for totalLevels
     public Integer getTotalLevels() {
         return totalLevels;
     }
@@ -67,6 +60,7 @@ public class WorkflowTemplate {
         this.totalLevels = totalLevels;
     }
 
+    // Getter and Setter for active
     public Boolean getActive() {
         return active;
     }
