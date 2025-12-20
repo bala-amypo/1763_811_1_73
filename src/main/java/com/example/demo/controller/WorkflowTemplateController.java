@@ -16,21 +16,39 @@ public class WorkflowTemplateController {
         this.service = service;
     }
 
+    // POST - Create
     @PostMapping
-    public WorkflowTemplate save(@RequestBody WorkflowTemplate template) {
-        return service.save(template);
+    public WorkflowTemplate create(@RequestBody WorkflowTemplate template) {
+        return service.create(template);
     }
 
+    // GET - Get by ID
     @GetMapping("/{id}")
-    public WorkflowTemplate get(@PathVariable Long id) {
+    public WorkflowTemplate getById(@PathVariable Long id) {
         return service.getById(id);
     }
 
+    // GET - Get all
     @GetMapping
     public List<WorkflowTemplate> getAll() {
         return service.getAll();
     }
 
+    // PUT - Full update
+    @PutMapping("/{id}")
+    public WorkflowTemplate update(@PathVariable Long id,
+                                   @RequestBody WorkflowTemplate template) {
+        return service.update(id, template);
+    }
+
+    // PATCH - Partial update
+    @PatchMapping("/{id}")
+    public WorkflowTemplate patch(@PathVariable Long id,
+                                  @RequestBody WorkflowTemplate template) {
+        return service.partialUpdate(id, template);
+    }
+
+    // DELETE
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         service.delete(id);
