@@ -1,13 +1,11 @@
+package com.example.demo.repository;
 
+import com.example.demo.model.WorkflowStepConfig;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
-@PostMapping("/create")
-public Entity save(@RequestBody Entity obj)
+public interface WorkflowStepConfigRepository
+        extends JpaRepository<WorkflowStepConfig, Long> {
 
-@GetMapping("/{id}")
-public Entity get(@PathVariable Long id)
-
-@GetMapping("/all")
-public List<Entity> getAll()
-
-@DeleteMapping("/{id}")
-public void delete(@PathVariable Long id)
+    List<WorkflowStepConfig> findByTemplateIdOrderByLevelNumberAsc(Long templateId);
+}
