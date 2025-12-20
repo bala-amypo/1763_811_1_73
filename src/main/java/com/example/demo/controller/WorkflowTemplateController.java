@@ -16,34 +16,29 @@ public class WorkflowTemplateController {
         this.service = service;
     }
 
-    // CREATE
-    @PostMapping("/create")
-    public WorkflowTemplate createTemplate(@RequestBody WorkflowTemplate template) {
-        return service.saveTemplate(template);
+    @PostMapping
+    public WorkflowTemplate create(@RequestBody WorkflowTemplate template) {
+        return service.createTemplate(template);
     }
 
-    // READ by ID
-    @GetMapping("/get/{id}")
-    public WorkflowTemplate getTemplate(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    public WorkflowTemplate get(@PathVariable Long id) {
         return service.getTemplateById(id);
     }
 
-    // READ all
-    @GetMapping("/all")
-    public List<WorkflowTemplate> getAllTemplates() {
+    @GetMapping
+    public List<WorkflowTemplate> getAll() {
         return service.getAllTemplates();
     }
 
-    // UPDATE
-    @PutMapping("/update/{id}")
-    public WorkflowTemplate updateTemplate(@PathVariable Long id,
-                                           @RequestBody WorkflowTemplate template) {
+    @PutMapping("/{id}")
+    public WorkflowTemplate update(@PathVariable Long id,
+                                   @RequestBody WorkflowTemplate template) {
         return service.updateTemplate(id, template);
     }
 
-    // DELETE
-    @DeleteMapping("/delete/{id}")
-    public String deleteTemplate(@PathVariable Long id) {
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
         service.deleteTemplate(id);
         return "Template deleted successfully";
     }

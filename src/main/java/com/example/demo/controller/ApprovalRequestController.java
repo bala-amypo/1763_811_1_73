@@ -10,25 +10,35 @@ import java.util.List;
 @RequestMapping("/api/requests")
 public class ApprovalRequestController {
 
-    private final ApprovalRequestService approvalRequestService;
+    private ApprovalRequestService service;
 
-    public ApprovalRequestController(ApprovalRequestService approvalRequestService) {
-        this.approvalRequestService = approvalRequestService;
+    public ApprovalRequestController(ApprovalRequestService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public ApprovalRequest createRequest(@RequestBody ApprovalRequest request) {
-        return approvalRequestService.createRequest(request);
+    public ApprovalRequest create(@RequestBody ApprovalRequest request) {
+        return service.createRequest(request);
+    }
+
+    @GetMapping("/{id}")
+    public ApprovalRequest get(@PathVariable Long id) {
+        return service.getRequestById(id);
     }
 
     @GetMapping
-    public List<ApprovalRequest> getRequests(
-            @RequestParam(required = false) Long requesterId) {
+    public List<ApprovalRequest> getAll() {
+        return service.getAllRequests();
+    }
 
-        if (requesterId != null) {
-            return approvalRequestService.getRequestsByRequester(requesterId);
-        }
+    @GetMapping("/requester/{id}")
+    public List<ApprovalRequest> getByRequester(@PathVariable Long id) {
+        return service.getRequestsByRequester(id);
+    }
 
-        return approvalRequestService.getAllRequests();
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable Long id) {
+        service.deleteRequest(id);
+        return "Request deleted successfully";
     }
 }
