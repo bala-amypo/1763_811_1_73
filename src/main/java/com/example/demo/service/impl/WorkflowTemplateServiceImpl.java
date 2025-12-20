@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.model.WorkflowTemplate;
 import com.example.demo.repository.WorkflowTemplateRepository;
 import com.example.demo.service.WorkflowTemplateService;
+import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,44 +13,35 @@ public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
 
     private WorkflowTemplateRepository repository;
 
-    // Constructor Injection
     public WorkflowTemplateServiceImpl(WorkflowTemplateRepository repository) {
         this.repository = repository;
     }
 
-    // CREATE
-    public WorkflowTemplate saveTemplate(WorkflowTemplate template) {
+    public WorkflowTemplate createTemplate(WorkflowTemplate template) {
         return repository.save(template);
     }
 
-    // UPDATE
     public WorkflowTemplate updateTemplate(Long id, WorkflowTemplate template) {
+        WorkflowTemplate existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Template not found"));
 
-        WorkflowTemplate existingTemplate = repository.findById(id).orElse(null);
+        existing.setTemplateName(template.getTemplateName());
+        existing.setDescription(template.getDescription());
+        existing.setTotalLevels(template.getTotalLevels());
+        existing.setActive(template.getActive());
 
-        if (existingTemplate != null) {
-            existingTemplate.setTemplateName(template.getTemplateName());
-            existingTemplate.setDescription(template.getDescription());
-            existingTemplate.setTotalLevels(template.getTotalLevels());
-            existingTemplate.setActive(template.getActive());
-
-            return repository.save(existingTemplate);
-        }
-
-        return null;
+        return repository.save(existing);
     }
 
-    // READ by ID
     public WorkflowTemplate getTemplateById(Long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Template not found"));
     }
 
-    // READ all
     public List<WorkflowTemplate> getAllTemplates() {
         return repository.findAll();
     }
 
-    // DELETE
     public void deleteTemplate(Long id) {
         repository.deleteById(id);
     }
