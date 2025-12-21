@@ -1,56 +1,51 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.WorkflowTemplate;
-import com.example.demo.service.WorkflowTemplateService;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.example.demo.model.WorkflowTemplate;
+import com.example.demo.service.WorkflowTemplateService;
 
 @RestController
 @RequestMapping("/api/templates")
 public class WorkflowTemplateController {
 
-    private WorkflowTemplateService service;
+    private final WorkflowTemplateService service;
 
     public WorkflowTemplateController(WorkflowTemplateService service) {
         this.service = service;
     }
 
-    // POST - Create
+    // CREATE
     @PostMapping
     public WorkflowTemplate create(@RequestBody WorkflowTemplate template) {
-        return service.create(template);
+        return service.createTemplate(template);
     }
 
-    // GET - Get by ID
+    // READ by ID
     @GetMapping("/{id}")
     public WorkflowTemplate getById(@PathVariable Long id) {
-        return service.getById(id);
+        return service.getTemplateById(id);
     }
 
-    // GET - Get all
+    // READ all
     @GetMapping
     public List<WorkflowTemplate> getAll() {
-        return service.getAll();
+        return service.getAllTemplates();
     }
 
-    // PUT - Full update
+    // UPDATE
     @PutMapping("/{id}")
     public WorkflowTemplate update(@PathVariable Long id,
                                    @RequestBody WorkflowTemplate template) {
-        return service.update(id, template);
-    }
-
-    // PATCH - Partial update
-    @PatchMapping("/{id}")
-    public WorkflowTemplate patch(@PathVariable Long id,
-                                  @RequestBody WorkflowTemplate template) {
-        return service.partialUpdate(id, template);
+        return service.updateTemplate(id, template);
     }
 
     // DELETE
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) {
-        service.delete(id);
+    public String delete(@PathVariable Long id) {
+        service.deleteTemplate(id);
+        return "Workflow Template deleted successfully";
     }
 }

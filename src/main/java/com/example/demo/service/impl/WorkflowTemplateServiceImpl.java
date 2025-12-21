@@ -1,30 +1,50 @@
 package com.example.demo.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.WorkflowTemplate;
 import com.example.demo.repository.WorkflowTemplateRepository;
 import com.example.demo.service.WorkflowTemplateService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
 
-    private WorkflowTemplateRepository repository;
+    private final WorkflowTemplateRepository repository;
 
     public WorkflowTemplateServiceImpl(WorkflowTemplateRepository repository) {
         this.repository = repository;
     }
 
-    // POST
-    public WorkflowTemplate create(WorkflowTemplate template) {
+    @Override
+    public WorkflowTemplate createTemplate(WorkflowTemplate template) {
+
+        // setting default values
+        if (template.getActive() == null) {
+            template.setActive(true);
+        }
+
         return repository.save(template);
     }
 
-    // PUT (full update)
-    public WorkflowTemplate update(Long id, WorkflowTemplate template) {
-        WorkflowTemplate existing = repository.findById(id).orElse(null);
-        if (existing == null) return null;
+    @Override
+    public WorkflowTemplate getTemplateById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Workflow Template not found with id: " + id));
+    }
+
+    @Override
+    public List<WorkflowTemplate> getAllTemplates() {
+        return repository.findAll();
+    }
+
+    @Override
+    public WorkflowTemplate updateTemplate(Long id, WorkflowTemplate template) {
+
+        WorkflowTemplate existing = getTemplateById(id);
 
         existing.setTemplateName(template.getTemplateName());
         existing.setDescription(template.getDescription());
@@ -34,38 +54,10 @@ public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
         return repository.save(existing);
     }
 
-    // PATCH (partial update)
-    public WorkflowTemplate partialUpdate(Long id, WorkflowTemplate template) {
-        WorkflowTemplate existing = repository.findById(id).orElse(null);
-        if (existing == null) return null;
+    @Override
+    public void deleteTemplate(Long id) {
 
-        if (template.getTemplateName() != null)
-            existing.setTemplateName(template.getTemplateName());
-
-        if (template.getDescription() != null)
-            existing.setDescription(template.getDescription());
-
-        if (template.getTotalLevels() != null)
-            existing.setTotalLevels(template.getTotalLevels());
-
-        if (template.getActive() != null)
-            existing.setActive(template.getActive());
-
-        return repository.save(existing);
-    }
-
-    // GET by id
-    public WorkflowTemplate getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
-
-    // GET all
-    public List<WorkflowTemplate> getAll() {
-        return repository.findAll();
-    }
-
-    // DELETE
-    public void delete(Long id) {
-        repository.deleteById(id);
+        WorkflowTemplate existing = getTemplateById(id);
+        repository.delete(existing);
     }
 }
