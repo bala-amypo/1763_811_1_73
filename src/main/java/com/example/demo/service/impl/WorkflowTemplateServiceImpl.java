@@ -21,7 +21,7 @@ public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
     @Override
     public WorkflowTemplate createTemplate(WorkflowTemplate template) {
 
-        // setting default values
+       
         if (template.getActive() == null) {
             template.setActive(true);
         }
