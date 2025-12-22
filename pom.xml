@@ -9,7 +9,7 @@
     <groupId>com.example</groupId>
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Crop Fertilizer API</name>
+    <name>Multi-Level Approval Workflow Engine</name>
     <description>Crop &amp; Fertilizer Suggestion API</description>
 
     <parent>
