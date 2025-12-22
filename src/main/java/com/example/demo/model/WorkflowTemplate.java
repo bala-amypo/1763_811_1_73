@@ -15,7 +15,6 @@ public class WorkflowTemplate {
     private Integer totalLevels;
     private Boolean active;
 
-    // ----- Getter and Setter -----
 
     public Long getId() {
         return id;

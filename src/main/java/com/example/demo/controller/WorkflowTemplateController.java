@@ -1,51 +1,58 @@
 package com.example.demo.controller;
 
-import java.util.List;
-
+import com.example.demo.model.WorkflowTemplate;
+import com.example.demo.repository.WorkflowTemplateRepository;
 import org.springframework.web.bind.annotation.*;
 
-import com.example.demo.model.WorkflowTemplate;
-import com.example.demo.service.WorkflowTemplateService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/templates")
 public class WorkflowTemplateController {
 
-    private final WorkflowTemplateService service;
+    private final WorkflowTemplateRepository repository;
 
-    public WorkflowTemplateController(WorkflowTemplateService service) {
-        this.service = service;
+    public WorkflowTemplateController(WorkflowTemplateRepository repository) {
+        this.repository = repository;
     }
 
-    // CREATE
     @PostMapping
     public WorkflowTemplate create(@RequestBody WorkflowTemplate template) {
-        return service.createTemplate(template);
+        return repository.save(template);
     }
 
-    // READ by ID
-    @GetMapping("/{id}")
-    public WorkflowTemplate getById(@PathVariable Long id) {
-        return service.getTemplateById(id);
-    }
 
-    // READ all
     @GetMapping
     public List<WorkflowTemplate> getAll() {
-        return service.getAllTemplates();
+        return repository.findAll();
     }
 
-    // UPDATE
+    @GetMapping("/{id}")
+    public WorkflowTemplate getById(@PathVariable Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+
     @PutMapping("/{id}")
-    public WorkflowTemplate update(@PathVariable Long id,
-                                   @RequestBody WorkflowTemplate template) {
-        return service.updateTemplate(id, template);
+    public WorkflowTemplate update(
+            @PathVariable Long id,
+            @RequestBody WorkflowTemplate newData) {
+
+        WorkflowTemplate old = repository.findById(id).orElse(null);
+
+        if (old != null) {
+            old.setTemplateName(newData.getTemplateName());
+            old.setDescription(newData.getDescription());
+            old.setTotalLevels(newData.getTotalLevels());
+            old.setActive(newData.getActive());
+            return repository.save(old);
+        }
+        return null;
     }
 
-    // DELETE
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
-        service.deleteTemplate(id);
-        return "Workflow Template deleted successfully";
+        repository.deleteById(id);
+        return "Deleted successfully";
     }
 }
