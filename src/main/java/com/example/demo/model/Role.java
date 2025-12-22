@@ -13,7 +13,6 @@ public class Role {
     @Column(unique = true)
     private String name;
 
-    // ----- Getter and Setter -----
 
     public Long getId() {
         return id;

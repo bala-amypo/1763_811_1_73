@@ -18,7 +18,6 @@ public class ApprovalAction {
     private String comments;
     private LocalDateTime actionDate;
 
-    // ----- Getter and Setter -----
 
     public Long getId() {
         return id;

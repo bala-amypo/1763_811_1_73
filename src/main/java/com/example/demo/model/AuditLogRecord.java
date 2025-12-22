@@ -16,7 +16,6 @@ public class AuditLogRecord {
     private String details;
     private LocalDateTime loggedAt;
 
-    // ----- Getter and Setter -----
 
     public Long getId() {
         return id;

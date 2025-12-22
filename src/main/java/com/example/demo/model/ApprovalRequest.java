@@ -22,7 +22,6 @@ public class ApprovalRequest {
     private Integer currentLevel;
     private LocalDateTime createdAt;
 
-    // ----- Getter and Setter -----
 
     public Long getId() {
         return id;
