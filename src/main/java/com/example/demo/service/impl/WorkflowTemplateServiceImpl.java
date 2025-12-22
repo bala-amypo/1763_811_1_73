@@ -1,12 +1,13 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.exception.DuplicateResourceException;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.model.WorkflowTemplate;
 import com.example.demo.repository.WorkflowTemplateRepository;
 import com.example.demo.service.WorkflowTemplateService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
@@ -17,56 +18,47 @@ public class WorkflowTemplateServiceImpl implements WorkflowTemplateService {
         this.repository = repository;
     }
 
-    // ✅ CREATE (no duplicates)
-    @Override
-    public WorkflowTemplate create(WorkflowTemplate template) {
 
-        if (repository.existsByTemplateName(template.getTemplateName())) {
-            throw new DuplicateResourceException(
-                    "Template with name '" + template.getTemplateName() + "' already exists");
+    @Override
+    public WorkflowTemplate createTemplate(WorkflowTemplate template) {
+
+       
+        if (template.getActive() == null) {
+            template.setActive(true);
         }
 
         return repository.save(template);
     }
 
     @Override
-    public List<WorkflowTemplate> getAll() {
+    public WorkflowTemplate getTemplateById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Workflow Template not found with id: " + id));
+    }
+
+    @Override
+    public List<WorkflowTemplate> getAllTemplates() {
         return repository.findAll();
     }
 
     @Override
-    public WorkflowTemplate getById(Long id) {
-        return repository.findById(id).orElse(null);
-    }
+    public WorkflowTemplate updateTemplate(Long id, WorkflowTemplate template) {
 
-    // ✅ UPDATE (prevent duplicate on update too)
-    @Override
-    public WorkflowTemplate update(Long id, WorkflowTemplate newData) {
+        WorkflowTemplate existing = getTemplateById(id);
 
-        WorkflowTemplate old = repository.findById(id).orElse(null);
+        existing.setTemplateName(template.getTemplateName());
+        existing.setDescription(template.getDescription());
+        existing.setTotalLevels(template.getTotalLevels());
+        existing.setActive(template.getActive());
 
-        if (old != null) {
-
-            // check duplicate only if name is changed
-            if (!old.getTemplateName().equals(newData.getTemplateName()) &&
-                repository.existsByTemplateName(newData.getTemplateName())) {
-
-                throw new DuplicateResourceException(
-                        "Template with name '" + newData.getTemplateName() + "' already exists");
-            }
-
-            old.setTemplateName(newData.getTemplateName());
-            old.setDescription(newData.getDescription());
-            old.setTotalLevels(newData.getTotalLevels());
-            old.setActive(newData.getActive());
-
-            return repository.save(old);
-        }
-        return null;
+        return repository.save(existing);
     }
 
     @Override
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public void deleteTemplate(Long id) {
+
+        WorkflowTemplate existing = getTemplateById(id);
+        repository.delete(existing);
     }
 }
