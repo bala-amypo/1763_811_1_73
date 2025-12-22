@@ -10,7 +10,7 @@
     <artifactId>demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>Multi-Level Approval Workflow Engine</name>
-    <description>Crop &amp; Fertilizer Suggestion API</description>
+    <description>Authorization</description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
