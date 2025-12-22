@@ -5,6 +5,7 @@ import com.example.demo.model.WorkflowTemplate;
 
 public interface WorkflowTemplateService {
 
+
     WorkflowTemplate createTemplate(WorkflowTemplate template);
 
     WorkflowTemplate getTemplateById(Long id);
