@@ -16,8 +16,6 @@ public class WorkflowStepConfig {
     private Boolean isFinalStep;
     private String instructions;
 
-    // ----- Getter and Setter -----
-
     public Long getId() {
         return id;
     }
