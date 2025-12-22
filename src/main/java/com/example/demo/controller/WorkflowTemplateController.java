@@ -51,7 +51,6 @@ public class WorkflowTemplateController {
 
         if (old != null) {
 
-            // 🔴 DUPLICATE CHECK ONLY IF NAME CHANGED
             if (!old.getTemplateName().equals(newData.getTemplateName()) &&
                 repository.existsByTemplateName(newData.getTemplateName())) {
 
@@ -69,7 +68,7 @@ public class WorkflowTemplateController {
         return null;
     }
 
-    // ✅ DELETE
+  
     @DeleteMapping("/{id}")
     public String delete(@PathVariable Long id) {
         repository.deleteById(id);
