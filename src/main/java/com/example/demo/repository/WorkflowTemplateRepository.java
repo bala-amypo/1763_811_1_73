@@ -5,5 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface WorkflowTemplateRepository
         extends JpaRepository<WorkflowTemplate, Long> {
-       
+
+    boolean existsByTemplateName(String templateName);
 }
