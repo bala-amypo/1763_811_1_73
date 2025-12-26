@@ -1,17 +1,11 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
 
-<suite name="Demo Workflow Engine Test Suite" verbose="1">
+<suite name="Demo Workflow Engine Suite">
 
-    <test name="User Service & Workflow Tests">
-
+    <test name="Workflow Tests">
         <classes>
-            <!-- Your main TestNG test class -->
             <class name="com.example.demo.UserServiceTest"/>
-
-            <!-- Listener class (optional, but fine to include) -->
-            <class name="com.example.demo.TestResultListener"/>
         </classes>
-
     </test>
 
 </suite>
