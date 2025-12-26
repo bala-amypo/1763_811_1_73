@@ -2,23 +2,23 @@ package com.example.demo.service.impl;
 
 import com.example.demo.model.ApprovalAction;
 import com.example.demo.repository.ApprovalActionRepository;
-import com.example.demo.repository.ApprovalRequestRepository;
 import com.example.demo.service.ApprovalActionService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ApprovalActionServiceImpl implements ApprovalActionService {
+public class ApprovalActionServiceImpl
+        implements ApprovalActionService {
 
-    private final ApprovalActionRepository repo;
-    private final ApprovalRequestRepository requestRepo;
+    private final ApprovalActionRepository repository;
 
-    public ApprovalActionServiceImpl(ApprovalActionRepository repo,
-                                     ApprovalRequestRepository requestRepo) {
-        this.repo = repo;
-        this.requestRepo = requestRepo;
+    public ApprovalActionServiceImpl(
+            ApprovalActionRepository repository) {
+        this.repository = repository;
     }
 
-    public ApprovalAction recordAction(ApprovalAction action) {
-        return repo.save(action);
+    @Override
+    public ApprovalAction saveAction(
+            ApprovalAction action) {
+        return repository.save(action);
     }
 }
