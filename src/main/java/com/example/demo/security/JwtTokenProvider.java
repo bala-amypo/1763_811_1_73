@@ -1,5 +1,6 @@
 package com.example.demo.security;
 
+import com.example.demo.model.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -12,20 +13,19 @@ public class JwtTokenProvider {
 
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(
-                SecurityConstants.SECRET_KEY.getBytes()
-        );
+                SecurityConstants.SECRET_KEY.getBytes());
     }
 
-    // Generate token
-    public String generateToken(String username) {
+    public String generateToken(User user) {
 
         Date now = new Date();
-        Date expiry =
-                new Date(now.getTime()
+        Date expiry = new Date(
+                now.getTime()
                         + SecurityConstants.EXPIRATION_TIME);
 
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(user.getUsername())
+                .claim("userId", user.getId())
                 .setIssuedAt(now)
                 .setExpiration(expiry)
                 .signWith(getSigningKey(),
@@ -33,18 +33,24 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    // Extract username
     public String getUsernameFromToken(String token) {
-        Claims claims = Jwts.parserBuilder()
+        return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
                 .parseClaimsJws(token)
-                .getBody();
-
-        return claims.getSubject();
+                .getBody()
+                .getSubject();
     }
 
-    // Validate token
+    public Long getUserIdFromToken(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("userId", Long.class);
+    }
+
     public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()

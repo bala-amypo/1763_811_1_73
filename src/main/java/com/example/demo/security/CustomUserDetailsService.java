@@ -1,62 +1,44 @@
 package com.example.demo.security;
 
-import com.example.demo.model.Role;
 import com.example.demo.model.User;
-import org.springframework.security.core.GrantedAuthority;
+import com.example.demo.repository.UserRepository;
+import org.springframework.security.core.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.*;
+import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.stream.Collectors;
 
-public class CustomUserDetails implements UserDetails {
+@Service
+public class CustomUserDetailsService
+        implements UserDetailsService {
 
-    private User user;
+    private final UserRepository userRepository;
 
-    public CustomUserDetails(User user) {
-        this.user = user;
+    public CustomUserDetailsService(
+            UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getRoles()
-                .stream()
-                .map(Role::getName)
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-    }
+    public UserDetails loadUserByUsername(
+            String username)
+            throws UsernameNotFoundException {
 
-    @Override
-    public String getPassword() {
-        return user.getPassword();
-    }
+        User user = userRepository
+                .findByUsername(username)
+                .orElseThrow(() ->
+                        new UsernameNotFoundException(
+                                "User not found"));
 
-    @Override
-    public String getUsername() {
-        return user.getUsername();
-    }
-
-    public Long getId() {
-        return user.getId();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                user.getRoles().stream()
+                        .map(role ->
+                                new SimpleGrantedAuthority(
+                                        "ROLE_" + role.getName()))
+                        .collect(Collectors.toList())
+        );
     }
 }

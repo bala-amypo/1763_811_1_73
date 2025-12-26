@@ -4,23 +4,25 @@ import jakarta.servlet.*;
 import jakarta.servlet.http.*;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.List;
 
 @Component
 public class JwtAuthenticationFilter
         extends OncePerRequestFilter {
 
     private final JwtTokenProvider tokenProvider;
+    private final CustomUserDetailsService userDetailsService;
 
     public JwtAuthenticationFilter(
-            JwtTokenProvider tokenProvider) {
+            JwtTokenProvider tokenProvider,
+            CustomUserDetailsService userDetailsService) {
         this.tokenProvider = tokenProvider;
+        this.userDetailsService = userDetailsService;
     }
 
     @Override
@@ -34,9 +36,9 @@ public class JwtAuthenticationFilter
                 request.getHeader(
                         SecurityConstants.HEADER_STRING);
 
-        if (header != null
-                && header.startsWith(
-                SecurityConstants.TOKEN_PREFIX)) {
+        if (header != null &&
+                header.startsWith(
+                        SecurityConstants.TOKEN_PREFIX)) {
 
             String token = header.replace(
                     SecurityConstants.TOKEN_PREFIX, "");
@@ -47,14 +49,15 @@ public class JwtAuthenticationFilter
                         tokenProvider
                                 .getUsernameFromToken(token);
 
+                UserDetails userDetails =
+                        userDetailsService
+                                .loadUserByUsername(username);
+
                 UsernamePasswordAuthenticationToken auth =
                         new UsernamePasswordAuthenticationToken(
-                                username,
+                                userDetails,
                                 null,
-                                List.of(
-                                        new SimpleGrantedAuthority(
-                                                "ROLE_USER"))
-                        );
+                                userDetails.getAuthorities());
 
                 auth.setDetails(
                         new WebAuthenticationDetailsSource()

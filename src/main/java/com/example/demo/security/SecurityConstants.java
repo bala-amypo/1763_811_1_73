@@ -6,7 +6,7 @@ public class SecurityConstants {
             "mysecretkeymysecretkeymysecretkey123456";
 
     public static final long EXPIRATION_TIME =
-            86400000; 
+            86400000; // 1 day
 
     public static final String TOKEN_PREFIX = "Bearer ";
 
