@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.WorkflowTemplate;
-import com.example.demo.repository.WorkflowTemplateRepository;
+import com.example.demo.service.WorkflowTemplateService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,67 +10,30 @@ import java.util.List;
 @RequestMapping("/api/templates")
 public class WorkflowTemplateController {
 
-    private final WorkflowTemplateRepository repository;
+    private final WorkflowTemplateService service;
 
-    public WorkflowTemplateController(WorkflowTemplateRepository repository) {
-        this.repository = repository;
+    public WorkflowTemplateController(WorkflowTemplateService service) {
+        this.service = service;
     }
 
     @PostMapping
-    public WorkflowTemplate create(@RequestBody WorkflowTemplate template) {
-
-       
-        if (repository.existsByTemplateName(template.getTemplateName())) {
-            throw new RuntimeException(
-                    "Template with name '" + template.getTemplateName() + "' already exists");
-        }
-
-        return repository.save(template);
+    public WorkflowTemplate create(@RequestBody WorkflowTemplate t) {
+        return service.createTemplate(t);
     }
 
-  
-    @GetMapping
-    public List<WorkflowTemplate> getAll() {
-        return repository.findAll();
-    }
-
- 
     @GetMapping("/{id}")
-    public WorkflowTemplate getById(@PathVariable Long id) {
-        return repository.findById(id).orElse(null);
+    public WorkflowTemplate get(@PathVariable Long id) {
+        return service.getTemplateById(id).orElseThrow();
     }
 
-  
+    @GetMapping
+    public List<WorkflowTemplate> list() {
+        return service.getAllTemplates();
+    }
+
     @PutMapping("/{id}")
-    public WorkflowTemplate update(
-            @PathVariable Long id,
-            @RequestBody WorkflowTemplate newData) {
-
-        WorkflowTemplate old = repository.findById(id).orElse(null);
-
-        if (old != null) {
-
-            if (!old.getTemplateName().equals(newData.getTemplateName()) &&
-                repository.existsByTemplateName(newData.getTemplateName())) {
-
-                throw new RuntimeException(
-                        "Template with name '" + newData.getTemplateName() + "' already exists");
-            }
-
-            old.setTemplateName(newData.getTemplateName());
-            old.setDescription(newData.getDescription());
-            old.setTotalLevels(newData.getTotalLevels());
-            old.setActive(newData.getActive());
-
-            return repository.save(old);
-        }
-        return null;
-    }
-
-  
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable Long id) {
-        repository.deleteById(id);
-        return "Deleted successfully";
+    public WorkflowTemplate update(@PathVariable Long id,
+                                   @RequestBody WorkflowTemplate t) {
+        return service.updateTemplate(id, t);
     }
 }
