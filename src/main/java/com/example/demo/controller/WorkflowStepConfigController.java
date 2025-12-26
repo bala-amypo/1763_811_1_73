@@ -12,17 +12,21 @@ public class WorkflowStepConfigController {
 
     private final WorkflowStepConfigService service;
 
-    public WorkflowStepConfigController(WorkflowStepConfigService service) {
+    public WorkflowStepConfigController(
+            WorkflowStepConfigService service) {
         this.service = service;
     }
 
     @PostMapping
-    public WorkflowStepConfig create(@RequestBody WorkflowStepConfig step) {
-        return service.createStep(step);
+    public WorkflowStepConfig createStep(
+            @RequestBody WorkflowStepConfig step) {
+        return service.saveStep(step);
     }
 
-    @GetMapping("/template/{id}")
-    public List<WorkflowStepConfig> list(@PathVariable Long id) {
-        return service.getStepsForTemplate(id);
+    @GetMapping("/template/{templateId}")
+    public List<WorkflowStepConfig>
+    getStepsForTemplate(
+            @PathVariable Long templateId) {
+        return service.getStepsByTemplate(templateId);
     }
 }

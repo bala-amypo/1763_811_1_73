@@ -8,19 +8,27 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class WorkflowStepConfigServiceImpl implements WorkflowStepConfigService {
+public class WorkflowStepConfigServiceImpl
+        implements WorkflowStepConfigService {
 
-    private final WorkflowStepConfigRepository repo;
+    private final WorkflowStepConfigRepository repository;
 
-    public WorkflowStepConfigServiceImpl(WorkflowStepConfigRepository repo) {
-        this.repo = repo;
+    public WorkflowStepConfigServiceImpl(
+            WorkflowStepConfigRepository repository) {
+        this.repository = repository;
     }
 
-    public WorkflowStepConfig createStep(WorkflowStepConfig step) {
-        return repo.save(step);
+    @Override
+    public WorkflowStepConfig saveStep(
+            WorkflowStepConfig step) {
+        return repository.save(step);
     }
 
-    public List<WorkflowStepConfig> getStepsForTemplate(Long templateId) {
-        return repo.findByTemplateIdOrderByLevelNumberAsc(templateId);
+    @Override
+    public List<WorkflowStepConfig>
+    getStepsByTemplate(Long templateId) {
+        return repository
+                .findByTemplateIdOrderByLevelNumberAsc(
+                        templateId);
     }
 }
