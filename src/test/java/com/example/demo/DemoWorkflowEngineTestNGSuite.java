@@ -1623,5 +1623,3 @@ public class TestResultListener implements ITestListener {
     } 
 
 } 
-
-DemoWorkflowEngineTestNGSuite.
