@@ -6,15 +6,9 @@
 
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>demo</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>Multi-Level Approval Workflow Engine</name>
-    <description>Spring Boot CRUD + JWT + Hibernate + TestNG</description>
-
-    <!-- ===================== -->
+    <!-- ========================= -->
     <!-- Spring Boot Parent -->
-    <!-- ===================== -->
+    <!-- ========================= -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -22,17 +16,23 @@
         <relativePath/>
     </parent>
 
+    <groupId>com.example</groupId>
+    <artifactId>demo</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Multi-Level Approval Workflow Engine</name>
+    <description>Spring Boot + JWT + Swagger + Hibernate + TestNG</description>
+
     <properties>
         <java.version>17</java.version>
         <jjwt.version>0.11.5</jjwt.version>
     </properties>
 
-    <!-- ===================== -->
+    <!-- ========================= -->
     <!-- DEPENDENCIES -->
-    <!-- ===================== -->
+    <!-- ========================= -->
     <dependencies>
 
-        <!-- Spring Boot Web (REST + Tomcat) -->
+        <!-- Spring Web (REST + Tomcat) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -50,20 +50,25 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- JWT (JSON Web Token) -->
+        <!-- Swagger / OpenAPI (Spring Boot 3 compatible) -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+            <version>2.3.0</version>
+        </dependency>
+
+        <!-- JWT -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-api</artifactId>
             <version>${jjwt.version}</version>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-impl</artifactId>
             <version>${jjwt.version}</version>
             <scope>runtime</scope>
         </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
@@ -71,29 +76,29 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- H2 Database (for testing & demo) -->
+        <!-- H2 Database (for dev/testing) -->
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Jakarta Persistence API -->
+        <!-- Jakarta Persistence -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
         </dependency>
 
-        <!-- Jakarta Servlet (for servlet tests) -->
+        <!-- Servlet API -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
             <artifactId>jakarta.servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
 
-        <!-- ===================== -->
+        <!-- ========================= -->
         <!-- TEST DEPENDENCIES -->
-        <!-- ===================== -->
+        <!-- ========================= -->
 
         <!-- Spring Boot Test -->
         <dependency>
@@ -126,19 +131,19 @@
 
     </dependencies>
 
-    <!-- ===================== -->
+    <!-- ========================= -->
     <!-- BUILD -->
-    <!-- ===================== -->
+    <!-- ========================= -->
     <build>
         <plugins>
 
-            <!-- Spring Boot Maven Plugin -->
+            <!-- Spring Boot Plugin -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
 
-            <!-- Maven Surefire Plugin (TestNG) -->
+            <!-- TestNG Surefire -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
