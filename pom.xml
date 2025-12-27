@@ -138,11 +138,11 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>3.2.5</version>
         <configuration>
-            <!-- Disable JUnit Platform completely -->
+            <!-- Disable JUnit completely -->
             <useJUnitPlatform>false</useJUnitPlatform>
 
-            <!-- Enable TestNG -->
-            <testNGArtifactName>org.testng:testng</testNGArtifactName>
+            <!-- Force TestNG -->
+            <provider>testng</provider>
 
             <includes>
                 <include>**/*Test.java</include>
