@@ -171,12 +171,12 @@
                 <version>7.8.0</version>
             </dependency>
         </dependencies>
-        <configuration>
+                <configuration>
             <suiteXmlFiles>
                 <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
             </suiteXmlFiles>
-            <useModulePath>false</useModulePath>
         </configuration>
+
     </plugin>
 
         </plugins>
