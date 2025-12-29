@@ -15,37 +15,37 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private final UserService userService;
-    private final JwtTokenProvider tokenProvider;
+        private final JwtTokenProvider tokenProvider;
 
-    public AuthController(UserService userService,
-                          JwtTokenProvider tokenProvider) {
-        this.userService = userService;
-        this.tokenProvider = tokenProvider;
-    }
+            public AuthController(UserService userService,
+                                      JwtTokenProvider tokenProvider) {
+                                              this.userService = userService;
+                                                      this.tokenProvider = tokenProvider;
+                                                          }
 
-    @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest req) {
-        User u = new User();
-        u.setUsername(req.getUsername());
-        u.setEmail(req.getEmail());
-        u.setPassword(req.getPassword());
-        return userService.registerUser(u, req.getRole());
-    }
+                                                              @PostMapping("/register")
+                                                                  public User register(@RequestBody RegisterRequest req) {
+                                                                          User u = new User();
+                                                                                  u.setUsername(req.getUsername());
+                                                                                          u.setEmail(req.getEmail());
+                                                                                                  u.setPassword(req.getPassword());
+                                                                                                          return userService.registerUser(u, req.getRole());
+                                                                                                              }
 
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest req) {
-        User user = userService.findByUsername(req.getUsernameOrEmail());
-        String token = tokenProvider.generateToken(user);
+                                                                                                                  @PostMapping("/login")
+                                                                                                                      public AuthResponse login(@RequestBody AuthRequest req) {
+                                                                                                                              User user = userService.findByUsername(req.getUsernameOrEmail());
+                                                                                                                                      String token = tokenProvider.generateToken(user);
 
-        AuthResponse res = new AuthResponse();
-        res.setToken(token);
-        res.setUsername(user.getUsername());
-        res.setRoles(
-                user.getRoles()
-                        .stream()
-                        .map(r -> r.getName())
-                        .collect(Collectors.toList())
-        );
-        return res;
-    }
-}
+                                                                                                                                              AuthResponse res = new AuthResponse();
+                                                                                                                                                      res.setToken(token);
+                                                                                                                                                              res.setUsername(user.getUsername());
+                                                                                                                                                                      res.setRoles(
+                                                                                                                                                                                      user.getRoles()
+                                                                                                                                                                                                              .stream()
+                                                                                                                                                                                                                                      .map(r -> r.getName())
+                                                                                                                                                                                                                                                              .collect(Collectors.toList())
+                                                                                                                                                                                                                                                                      );
+                                                                                                                                                                                                                                                                              return res;
+                                                                                                                                                                                                                                                                                  }
+                                                                                                                                                                                                                                                                                  }
