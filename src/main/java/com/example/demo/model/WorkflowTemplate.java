@@ -3,8 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "workflow_templates",
-       uniqueConstraints = @UniqueConstraint(columnNames = "template_name"))
+@Table(name = "workflow_templates", uniqueConstraints = @UniqueConstraint(columnNames = "template_name"))
 public class WorkflowTemplate {
 
     @Id
@@ -14,22 +13,52 @@ public class WorkflowTemplate {
     @Column(name = "template_name")
     private String templateName;
 
+    @Column(length = 1000)
     private String description;
+
+    @Column(nullable = false)
     private Integer totalLevels;
-    private Boolean active = true;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Column(nullable = false)
+    private Boolean active = Boolean.TRUE;
 
-    public String getTemplateName() { return templateName; }
-    public void setTemplateName(String templateName) { this.templateName = templateName; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Integer getTotalLevels() { return totalLevels; }
-    public void setTotalLevels(Integer totalLevels) { this.totalLevels = totalLevels; }
+    public String getTemplateName() {
+        return templateName;
+    }
 
-    public Boolean getActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getTotalLevels() {
+        return totalLevels;
+    }
+
+    public void setTotalLevels(Integer totalLevels) {
+        this.totalLevels = totalLevels;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }
