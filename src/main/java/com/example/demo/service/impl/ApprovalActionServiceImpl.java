@@ -5,20 +5,24 @@ import com.example.demo.repository.ApprovalActionRepository;
 import com.example.demo.service.ApprovalActionService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-public class ApprovalActionServiceImpl
-        implements ApprovalActionService {
+public class ApprovalActionServiceImpl implements ApprovalActionService {
 
-    private final ApprovalActionRepository repository;
+    private final ApprovalActionRepository actionRepository;
 
-    public ApprovalActionServiceImpl(
-            ApprovalActionRepository repository) {
-        this.repository = repository;
+    public ApprovalActionServiceImpl(ApprovalActionRepository actionRepository) {
+        this.actionRepository = actionRepository;
     }
 
     @Override
-    public ApprovalAction saveAction(
-            ApprovalAction action) {
-        return repository.save(action);
+    public ApprovalAction saveAction(ApprovalAction action) {
+        return actionRepository.save(action);
+    }
+
+    @Override
+    public List<ApprovalAction> findByLevelAndAction(int levelNumber, String action) {
+        return actionRepository.findByLevelAndAction(levelNumber, action);
     }
 }

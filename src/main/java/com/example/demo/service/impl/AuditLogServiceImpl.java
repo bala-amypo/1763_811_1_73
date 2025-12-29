@@ -1,3 +1,4 @@
+// AuditLogServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.model.AuditLogRecord;
@@ -8,14 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuditLogServiceImpl implements AuditLogService {
 
-    private final AuditLogRecordRepository repository;
+    private final AuditLogRecordRepository auditLogRepository;
 
-    public AuditLogServiceImpl(AuditLogRecordRepository repository) {
-        this.repository = repository;
+    public AuditLogServiceImpl(AuditLogRecordRepository auditLogRepository) {
+        this.auditLogRepository = auditLogRepository;
     }
 
     @Override
     public AuditLogRecord saveLog(AuditLogRecord log) {
-        return repository.save(log);
+        return auditLogRepository.save(log);
     }
 }
