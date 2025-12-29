@@ -1,64 +1,37 @@
 package com.example.demo.security;
 
+import com.example.demo.model.Role;
 import com.example.demo.model.User;
-import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
 
-import java.security.Key;
-import java.util.Date;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtTokenProvider {
 
-    private Key getSigningKey() {
-        return Keys.hmacShaKeyFor(
-                SecurityConstants.SECRET_KEY.getBytes());
-    }
-
     public String generateToken(User user) {
+        Set<String> roles = user.getRoles().stream()
+                .map(Role::getName)
+                .collect(Collectors.toSet());
 
-        Date now = new Date();
-        Date expiry = new Date(
-                now.getTime()
-                        + SecurityConstants.EXPIRATION_TIME);
-
-        return Jwts.builder()
-                .setSubject(user.getUsername())
-                .claim("userId", user.getId())
-                .setIssuedAt(now)
-                .setExpiration(expiry)
-                .signWith(getSigningKey(),
-                        SignatureAlgorithm.HS256)
-                .compact();
-    }
-
-    public String getUsernameFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
+        String raw = user.getId() + "|" + user.getEmail() + "|" + String.join(",", roles);
+        return Base64.getEncoder().encodeToString(raw.getBytes(StandardCharsets.UTF_8));
     }
 
     public Long getUserIdFromToken(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .get("userId", Long.class);
+        String decoded = new String(Base64.getDecoder().decode(token), StandardCharsets.UTF_8);
+        String[] parts = decoded.split("\\|");
+        return Long.parseLong(parts[0]);
     }
 
     public boolean validateToken(String token) {
         try {
-            Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token);
+            Base64.getDecoder().decode(token);
             return true;
-        } catch (Exception e) {
+        } catch (IllegalArgumentException ex) {
             return false;
         }
     }
