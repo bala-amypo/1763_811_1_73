@@ -8,6 +8,15 @@ public class AuthResponse {
     private String username;
     private List<String> roles;
 
+    public AuthResponse() {
+    }
+
+    public AuthResponse(String token, String username, List<String> roles) {
+        this.token = token;
+        this.username = username;
+        this.roles = roles;
+    }
+
     public String getToken() {
         return token;
     }
@@ -20,7 +29,7 @@ public class AuthResponse {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(String username) {   // required by controller
         this.username = username;
     }
 
@@ -28,7 +37,7 @@ public class AuthResponse {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<String> roles) {   // required by controller
         this.roles = roles;
     }
 }

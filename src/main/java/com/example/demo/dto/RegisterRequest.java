@@ -1,7 +1,6 @@
 package com.example.demo.dto;
 
 public class RegisterRequest {
-
     private String username;
     private String email;
     private String password;
@@ -26,7 +25,7 @@ public class RegisterRequest {
     public String getPassword() {
         return password;
     }
- 
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -34,7 +33,7 @@ public class RegisterRequest {
     public String getRole() {
         return role;
     }
- 
+
     public void setRole(String role) {
         this.role = role;
     }
