@@ -11,7 +11,7 @@ public interface ApprovalActionRepository
     List<ApprovalAction>
     findByLevelNumberAndAction(int levelNumber, String action);
 
-    // Alias used in tests
+    
     default List<ApprovalAction>
     findByLevelAndAction(int level, String action) {
         return findByLevelNumberAndAction(level, action);
