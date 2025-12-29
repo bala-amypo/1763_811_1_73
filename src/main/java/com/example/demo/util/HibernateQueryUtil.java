@@ -15,14 +15,11 @@ public class HibernateQueryUtil {
     @PersistenceContext
     private EntityManager entityManager;
 
-    /**
-     * Find approval actions by approverId using Criteria API
-     * (HCQL style)
-     */
+  
     public List<ApprovalAction>
     findActionsByApproverUsingCriteria(Long approverId) {
 
-        // Edge case: null approverId
+      
         if (approverId == null) {
             return new ArrayList<>();
         }
